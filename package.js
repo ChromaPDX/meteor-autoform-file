@@ -17,8 +17,7 @@ Package.onUse(function(api) {
     'mquandalle:jade',
     'less',
     'aldeed:autoform@5.3.2',
-    'fortawesome:fontawesome@4.3.0',
-    'mdg:camera'
+    'fortawesome:fontawesome@4.3.0'
   ]);
 
   api.addFiles('lib/client/autoform-file.jade', 'client');
