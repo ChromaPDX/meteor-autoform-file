@@ -16,7 +16,7 @@ Package.onUse(function(api) {
     'templating',
     'mquandalle:jade',
     'less@2.0.0',
-    'aldeed:autoform@5.3.2',
+    'aldeed:autoform@5.7.1',
     'fortawesome:fontawesome@4.3.0'
   ]);
 
