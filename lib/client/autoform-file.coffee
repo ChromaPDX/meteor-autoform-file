@@ -58,9 +58,6 @@ update = (t) ->
   $(t.find('.js-value')).trigger('change')
 
 makeThatImage = (f, t, e) ->
-  console.log "doing the thing!"
-  console.log file, t
-
   file = new FS.File f
 
   if Meteor.userId
@@ -103,8 +100,8 @@ Template.afFileUpload.events
           makeThatImage(e.target.files[0], theTemplate, theEvent)
         else
           BootstrapModalPrompt.prompt
-            title: "Woah there!"
-            content: "That image is WAY too big. Try a smaller image, or resize it before uploading."
+            title: "That file is too big."
+            content: "Please use an image that is less than 1920 pixels by 1080 pixels."
           , (result) ->
             if result
               #
