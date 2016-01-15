@@ -57,6 +57,30 @@ update = (t) ->
   $(t.find('.js-value')).keyup()
   $(t.find('.js-value')).trigger('change')
 
+makeThatImage = (f, t, e) ->
+  console.log "doing the thing!"
+  console.log file, t
+
+  file = new FS.File f
+
+  if Meteor.userId
+    file.createdBy = Meteor.userId()
+
+  collection = getCollection t.data
+
+  Session.set('uploaderProgress', 0)
+
+  collection.insert file, (err, fileObj) ->
+    if err then return console.log err
+    setValue(fileObj._id, e, t);
+    progress = setInterval(->
+      pct = fileObj.uploadProgress()
+      if (pct >= 100)
+        clearInterval(progress)
+        update(t)
+      Session.set('uploaderProgress', pct)
+    , 250)
+
 Template.afFileUpload.events
   'click .js-select-file': (e, t) ->
     e.preventDefault()
@@ -69,25 +93,27 @@ Template.afFileUpload.events
     return false
 
   'change .js-file': (e, t) ->
-    file = new FS.File e.target.files[0]
-    if Meteor.userId
-      file.createdBy = Meteor.userId()
+    theTemplate = t
+    theEvent = e
 
-    collection = getCollection t.data
-    #console.log([name, 'change .js-file', e.target, t, file, collection]);
+    if e.target.files[0].type = "image/png" || e.target.files[0].type = "image/jpg"
+      img = new Image
+      img.onload = () ->
+        if img.width < 1920 && img.height < 1080
+          makeThatImage(e.target.files[0], theTemplate, theEvent)
+        else
+          BootstrapModalPrompt.prompt
+            title: "Woah there!"
+            content: "That image is WAY too big. Try a smaller image, or resize it before uploading."
+          , (result) ->
+            if result
+              #
+            else
+              #
+      img.src = URL.createObjectURL(e.target.files[0])
+    else
+      makeThatImage(e.target.files[0], theTemplate, theEvent)
 
-    Session.set('uploaderProgress', 0)
-
-    collection.insert file, (err, fileObj) ->
-      if err then return console.log err
-      setValue(fileObj._id , e ,t);
-      progress = setInterval(->
-        pct = fileObj.uploadProgress()
-        if (pct >= 100)
-          clearInterval(progress)
-          update(t)
-        Session.set('uploaderProgress', pct)
-      , 250)
 
 Template.afFileUploadThumbIcon.helpers
   icon: ->
