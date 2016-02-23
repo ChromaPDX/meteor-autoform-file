@@ -96,17 +96,12 @@ Template.afFileUpload.events
     if e.target.files[0].type = "image/png" || e.target.files[0].type = "image/jpg"
       img = new Image
       img.onload = () ->
-        if img.width < 1920 && img.height < 1080
+        if img.width < 1921 && img.height < 1081
           makeThatImage(e.target.files[0], theTemplate, theEvent)
         else
           BootstrapModalPrompt.prompt
             title: "That file is too big."
             content: "Please use an image that is less than 1920 pixels by 1080 pixels."
-          , (result) ->
-            if result
-              #
-            else
-              #
       img.src = URL.createObjectURL(e.target.files[0])
     else
       makeThatImage(e.target.files[0], theTemplate, theEvent)
