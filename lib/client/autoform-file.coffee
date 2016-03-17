@@ -93,7 +93,7 @@ Template.afFileUpload.events
     theTemplate = t
     theEvent = e
 
-    if e.target.files[0].type = "image/png" || e.target.files[0].type = "image/jpg"
+    if e.target.files[0].type == "image/png" || e.target.files[0].type == "image/jpg"
       img = new Image
       img.onload = () ->
         if img.width < 1920 && img.height < 1080
