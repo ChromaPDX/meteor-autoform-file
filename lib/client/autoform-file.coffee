@@ -54,7 +54,7 @@ setValue = (val, e, t) ->
   update(t)
 
 update = (t) ->
-  $(t.find('.js-value')).keyup()
+  $(t.find('.js-value')).blur()
   $(t.find('.js-value')).trigger('change')
 
 makeThatImage = (f, t, e) ->
